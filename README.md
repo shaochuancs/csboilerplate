@@ -1,2 +1,2 @@
-# csBoilerplate
-Boilerplate for my web architecture
+# csboilerplate
+Boilerplate for web architecture
