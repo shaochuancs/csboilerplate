@@ -1,0 +1,8 @@
+node_modules/
+web/bower_components/
+web/compiled/
+web/components/common/constants.js
+
+.DS_Store
+.idea
+*~
