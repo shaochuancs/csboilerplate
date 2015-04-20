@@ -42,69 +42,6 @@ gulp.task('scripts', ['constants', 'tp'], function(){
   gulp.start('compileScripts');
 });
 
-//gulp.task('compileScripts', ['jshint'], function(){
-//  gulp.start('h5_scripts', 'h5_promotion_scripts', 'pc_scripts');
-//});
-
-gulp.task('compileScripts', function(){
-  gulp.start('h5_scripts', 'h5_promotion_scripts', 'pc_scripts');
-});
-
-// H5 Scripts
-gulp.task('h5_scripts', function(){
-  return browserify({
-    entries: glob('./web/components/h5/controller/**/*.js'),
-    paths: ['./web/components']
-  })
-    .bundle()
-    .pipe(source('duad.js'))
-    .pipe(buffer())
-    .pipe(gulpif(!DEV_MODE, uglify({
-      mangle: false
-    })))
-    .pipe(gulp.dest('./web/compiled/scripts/h5'));
-});
-
-// H5 Promotion Scripts
-gulp.task('h5_promotion_scripts', function(){
-  var browserified = transform(function(filename) {
-    var b = browserify({
-      entries: glob(filename),
-      paths: ['./web/components']
-    });
-    return b.bundle();
-  });
-
-  return gulp.src(['web/components/h5/promotion/**/*.js'], {base: 'web/components/h5'})
-    .pipe(browserified)
-    .pipe(gulpif(!DEV_MODE, uglify({
-      mangle: true
-    })))
-    .pipe(gulp.dest('./web/compiled/scripts/h5'));
-});
-
-// PC Scripts
-gulp.task('pc_scripts', function(){
-  return browserify({
-    entries: glob('./web/components/pc/controller/**/*.js'),
-    paths: ['./web/components']
-  })
-    .bundle()
-    .pipe(source('duad.js'))
-    .pipe(buffer())
-    .pipe(gulpif(!DEV_MODE, uglify({
-      mangle: true
-    })))
-    .pipe(gulp.dest('./web/compiled/scripts/pc'));
-});
-
-gulp.task('jshint', function() {
-  return gulp.src(['./web/components/**/*.js', '!./web/components/tp/**/*.js'])
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'));
-});
-
 // Config constants
 gulp.task('constants', function(){
   return properties.parse('config/config.properties', {
@@ -128,6 +65,47 @@ gulp.task('tp', function(){
       compress: false
     }))
     .pipe(gulp.dest('web/compiled/scripts/tp'));
+});
+
+gulp.task('compileScripts', ['jshint'], function(){
+  gulp.start('mobile_scripts', 'pc_scripts');
+});
+
+gulp.task('jshint', function() {
+  return gulp.src(['./web/components/**/*.js', '!./web/components/tp/**/*.js'])
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'));
+});
+
+// Mobile Scripts
+gulp.task('mobile_scripts', function(){
+  return browserify({
+    entries: glob('./web/components/mobile/controller/**/*.js'),
+    paths: ['./web/components']
+  })
+    .bundle()
+    .pipe(source('csboilerplate.js'))
+    .pipe(buffer())
+    .pipe(gulpif(!DEV_MODE, uglify({
+      mangle: false
+    })))
+    .pipe(gulp.dest('./web/compiled/scripts/mobile'));
+});
+
+// PC Scripts
+gulp.task('pc_scripts', function(){
+  return browserify({
+    entries: glob('./web/components/pc/controller/**/*.js'),
+    paths: ['./web/components']
+  })
+    .bundle()
+    .pipe(source('csboilerplate.js'))
+    .pipe(buffer())
+    .pipe(gulpif(!DEV_MODE, uglify({
+      mangle: true
+    })))
+    .pipe(gulp.dest('./web/compiled/scripts/pc'));
 });
 
 // Clean
