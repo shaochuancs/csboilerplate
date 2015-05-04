@@ -1,6 +1,5 @@
-# csboilerplate
+# csboilerplate ![Build Status](https://travis-ci.org/shaochuancs/csboilerplate.svg?branch=master)
 Boilerplate for web architecture
-[![Build Status](https://travis-ci.org/shaochuancs/csboilerplate.svg?branch=master)]
 
 ## License
 
