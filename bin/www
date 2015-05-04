@@ -8,6 +8,10 @@ properties.parse('config/config.properties', {
   path: true,
   sections: true
 }, function(error, obj) {
+  if (error) {
+    return console.error(error);
+  }
+
   startServer(obj);
 });
 
