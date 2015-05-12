@@ -28,47 +28,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'web'), {'extensions': ['html']}));
 
+/*
+  Define routes
+ */
 app.use('/', routes);
 app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
-
-app.configSwig = function(baseURL) {
+app.configTemplate = function(baseURL, libVersion, appVersion) {
   // Override default open/close tag, which conflicts with AngularJS
   swig.setDefaults({
     varControls: ['{=', '=}'],
     locals: {
       BASE_URL: baseURL,
-      VERSION: '?v=201503'
+      LIB_VERSION: libVersion,
+      APP_VERSION: appVersion
     }
   });
 }
