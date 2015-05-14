@@ -29,7 +29,7 @@ gulp.task('views', function(){
 gulp.task('stylesheets', function(){
   return gulp.src(['web/stylesheets/**/*.less'])
     .pipe(less({
-      paths: ['./web/stylesheets']
+      paths: ['./web']
     }))
     .on('error', gutil.log)
     .pipe(autoprefixer({browsers: ['> 1% in CN'], cascade: false}))

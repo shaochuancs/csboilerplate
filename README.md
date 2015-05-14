@@ -15,10 +15,9 @@ Secondly, install all NodeJS dependencies and Bower dependencies:
 npm install
 ```
 
-Then, generate your config.properties file from template and build the project:
+Then, build the project:
 
 ```
-cp csboilerplate/config/config.properties.template csboilerplate/config/config.properties
 gulp
 ```
 

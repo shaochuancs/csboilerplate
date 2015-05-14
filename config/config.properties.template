@@ -1,9 +1,0 @@
-DEV_MODE=false
-
-[version]
-LIB_VERSION=1
-APP_VERSION=1
-
-[web]
-BACKEND=http://localhost:3000
-API=http://localhost:3000
