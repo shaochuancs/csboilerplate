@@ -1,23 +1,19 @@
 #!/usr/bin/env node
 
+"use strict";
+
 var properties = require('properties');
 var debug = require('debug')('csboilerplate:server');
 var http = require('http');
 var app = require('../app');
+var config = require('../config/config');
 
-properties.parse('config/config.properties', {
-  path: true,
-  sections: true
-}, function(error, obj) {
-  if (error) {
-    return console.error(error);
-  }
-
+config.load(function(obj) {
   startServer(obj);
 });
 
 function startServer(paramObj) {
-  app.configTemplate(paramObj.web.BACKEND, paramObj.version.LIB_VERSION, paramObj.version.APP_VERSION);
+  app.configTemplate(paramObj.endpoint.API, 1, 1);
 
   /**
    * Get port from environment and store in Express.
