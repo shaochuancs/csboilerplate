@@ -2,23 +2,13 @@
 
 "use strict";
 
-var properties = require('properties');
 var debug = require('debug')('csboilerplate:server');
 var http = require('http');
 var app = require('../app');
-var config = require('../config/config');
 
-config.load(function(obj) {
-  startServer(obj);
-});
+startServer();
 
-function startServer(paramObj) {
-  app.configTemplate(paramObj.endpoint.API, 1, 1);
-
-  /**
-   * Get port from environment and store in Express.
-   */
-
+function startServer() {
   var port = normalizePort(process.env.PORT || '3000');
   app.set('port', port);
 

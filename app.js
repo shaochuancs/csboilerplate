@@ -33,7 +33,6 @@ app.use(express.static(path.join(__dirname, 'web'), {'extensions': ['html']}));
  */
 app.use('/', routes);
 app.use('/api', api);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -41,16 +40,30 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-app.configTemplate = function(baseURL, libVersion, appVersion) {
-  // Override default open/close tag, which conflicts with AngularJS
-  swig.setDefaults({
-    varControls: ['{=', '=}'],
-    locals: {
-      BASE_URL: baseURL,
-      LIB_VERSION: libVersion,
-      APP_VERSION: appVersion
-    }
+// Error Handlers
+if (app.get('env') === 'development') {
+  // development error handler, will print stacktrace
+  renderError(true);
+} else {
+  // production error handler, no stacktrace leaked to user
+  renderError(false);
+}
+function renderError(sendErrorObj) {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: sendErrorObj ? err : {}
+    });
   });
 }
+
+/*
+  Configure Swig template
+  Override default open/close tag, which conflicts with AngularJS
+ */
+swig.setDefaults({
+  varControls: ['{=', '=}']
+});
 
 module.exports = app;
