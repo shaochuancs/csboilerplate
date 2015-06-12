@@ -1,28 +1,14 @@
 #!/usr/bin/env node
 
-var properties = require('properties');
+"use strict";
+
 var debug = require('debug')('csboilerplate:server');
 var http = require('http');
 var app = require('../app');
 
-properties.parse('config/config.properties', {
-  path: true,
-  sections: true
-}, function(error, obj) {
-  if (error) {
-    return console.error(error);
-  }
+startServer();
 
-  startServer(obj);
-});
-
-function startServer(paramObj) {
-  app.configTemplate(paramObj.web.BACKEND, paramObj.version.LIB_VERSION, paramObj.version.APP_VERSION);
-
-  /**
-   * Get port from environment and store in Express.
-   */
-
+function startServer() {
   var port = normalizePort(process.env.PORT || '3000');
   app.set('port', port);
 
