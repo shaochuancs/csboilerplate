@@ -10,6 +10,7 @@ var debugServer = require('debug')('csboilerplate:server');
 
 var constants = require('../config/constants');
 var secret = constants['SECRET'];
+var useNormalize = constants.USE_NORMALIZE;
 
 var ENCODING_QUESTION_MARK = '__qm__';
 var ENCODING_EQUAL = '__eq__';
@@ -44,4 +45,12 @@ exports.debugDatabaseFailure = function(operation, params) {
     log = log + paramLog;
   }
   debugServer(log);
+};
+
+exports.getNormalizedStream = function(res, normalizeFunc) {
+  if (useNormalize === 'true') {
+    return concat(normalizeFunc);
+  } else {
+    return res;
+  }
 };

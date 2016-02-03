@@ -6,8 +6,10 @@
 "use strict";
 
 var debugServer = require('debug')('csboilerplate:server');
+var debugMock = require('debug')('csboilerplate:mock');
 var http = require('http');
 var app = require('../app');
+var mock = require('../mock-server');
 var config = require('../config/config');
 
 /**
@@ -23,6 +25,16 @@ config.load(function(obj) {
  * @param paramObj.SECRET - secret for user authentication
  */
 function startServer(paramObj) {
+  if (paramObj.web.API.indexOf('localhost')>0) {
+    var mockPort = normalizePort(process.env.MOCK_PORT || '3001');
+    mock.set('port', mockPort);
+
+    var mockServer = http.createServer(mock);
+    mockServer.listen(mockPort);
+    mockServer.on('error', onMockError);
+    mockServer.on('listening', onMockListening);
+  }
+
   app.configRoute(paramObj.SECRET);
   app.configErrorHandler(paramObj.DEV_MODE);
   app.configTemplate(paramObj.DEV_MODE);
@@ -54,6 +66,9 @@ function startServer(paramObj) {
   function onAppError(error) {
     onError(error, appPort);
   }
+  function onMockError(error) {
+    onError(error, mockPort);
+  }
   function onError(error, port) {
     if (error.syscall !== 'listen') {
       throw error;
@@ -78,10 +93,14 @@ function startServer(paramObj) {
 
   function onAppListening() {
     var addr = server.address();
-    onListening(addr);
+    onListening(addr, debugServer);
   }
-  function onListening(addr) {
+  function onMockListening() {
+    var addr = mockServer.address();
+    onListening(addr, debugMock);
+  }
+  function onListening(addr, debug) {
     var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    debugServer('Listening on ' + bind);
+    debug('Listening on ' + bind);
   }
 }
