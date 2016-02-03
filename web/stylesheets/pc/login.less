@@ -1,0 +1,47 @@
+@import "pc_common/pc-common";
+
+.login-panel {
+  background-color: @gray-bg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  form {
+    position: relative;
+    top: -60px;
+    @media (max-height: 480px) {
+      top: -40px;
+    }
+
+    .error-msg {
+      background: @white;
+      top: 162px;
+      color: @gray-bg;
+
+      @media (max-width: 768px) {
+        top: 156px;
+      }
+    }
+
+    img {
+      width: 80px;
+    }
+    h3 {
+      color: @white;
+      margin-bottom: 40px;
+      @media (max-width: 768px) {
+        font-size: 18px;
+      }
+    }
+    input {
+      @login-input-background: #494d55;
+      transition: none;
+      background-color: @login-input-background;
+      color: @white;
+      &:-webkit-autofill {
+        -webkit-box-shadow:0 0 0 50px @login-input-background inset;
+        -webkit-text-fill-color: @white;
+      }
+    }
+  }
+}

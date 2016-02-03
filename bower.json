@@ -1,14 +1,14 @@
 {
   "name": "csboilerplate",
-  "description": "Boilerplate for web architecture",
-  "version": "0.0.1",
-  "homepage": "https://github.com/shaochuancs/csboilerplate",
+  "description": "a simple web project boilerplate",
+  "version": "0.1",
+  "homepage": "http://www.shaochuancs.com",
   "private": true,
   "dependencies": {
-    "angular": "1.2.x",
-    "angular-route": "1.2.x",
-    "angular-loader": "1.2.x",
-    "angular-mocks": "~1.2.x",
-    "bootstrap": "~3.3.2"
+    "angular": "1.4.x",
+    "angular-animate": "~1.4.8",
+    "bootstrap": "~3.3.5",
+    "jquery": "~2.1.4",
+    "js-cookie": "~2.1.0"
   }
 }

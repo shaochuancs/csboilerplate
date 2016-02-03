@@ -3,7 +3,9 @@
   "devel": true,
   "jquery": true,
   "node": true,
+  "expr": true,
   "globalstrict": true,
+  "-W041": false,
   "globals": {
     "angular": false,
     "describe": false,
@@ -12,6 +14,7 @@
     "beforeEach": false,
     "afterEach": false,
     "module": false,
-    "inject": false
+    "inject": false,
+    "Cookies": true
   }
 }

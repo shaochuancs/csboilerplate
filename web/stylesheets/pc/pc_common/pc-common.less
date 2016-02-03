@@ -1,0 +1,92 @@
+@import "../../common/common";
+
+.full-screen {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.font-icon {
+  font-size: 26px;
+  position: relative;
+  display: inline-block;
+}
+
+.error-text {
+  color: @red-theme;
+}
+.text-color-gray {
+  color: @gray;
+}
+.popup-msg {
+  position: absolute;
+  width: 200px;
+  line-height: 40px;
+  border-radius: 6px;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 1;
+
+  &.ng-hide-add, &.ng-hide-remove {
+    transition: all linear 0.5s;
+  }
+  &.ng-hide {
+    opacity: 0;
+  }
+
+  @media (max-width: 768px) {
+    font-size: @font-size-small;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .page-main {
+    padding-left: 265px;
+  }
+}
+input.form-control {
+  height: 44px;
+  border-radius: 6px;
+}
+.btn-form-control {
+  height: 48px;
+  border-radius: 6px;
+}
+.btn-primary, .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-color: @orange-theme !important;
+  border-color: @orange-theme !important;
+}
+
+form.full-screen-form {
+  width: 375px;
+  text-align: center;
+  padding: 0 15px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  input, textarea {
+    border: 2px solid @gray-light;
+    margin-bottom: 20px;
+    box-shadow: none;
+  }
+  textarea {
+    resize: none;
+  }
+  button {
+    margin-top: 20px;
+  }
+}
+
+.font-icon.border-icon {
+  padding: 10px;
+  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 20px;
+  color: rgba(255, 255, 255, .7);
+  font-size: @font-size-larger;
+}
