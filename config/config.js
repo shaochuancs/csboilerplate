@@ -1,5 +1,5 @@
 /**
- * Created by cshao on 5/14/15.
+ * Created by cshao on 1/6/16.
  */
 
 "use strict";
@@ -19,4 +19,4 @@ module.exports.load = function(callback) {
 
     callback(obj);
   });
-}
+};

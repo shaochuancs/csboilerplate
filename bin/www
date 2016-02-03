@@ -1,34 +1,51 @@
 #!/usr/bin/env node
+/**
+ * Created by cshao on 1/6/16.
+ */
 
 "use strict";
 
-var debug = require('debug')('csboilerplate:server');
+var debugServer = require('debug')('csboilerplate:server');
+var debugMock = require('debug')('csboilerplate:mock');
 var http = require('http');
 var app = require('../app');
+var mock = require('../mock-server');
+var config = require('../config/config');
 
-startServer();
+/**
+ * Load config.properties file and start server with configuration
+ */
+config.load(function(obj) {
+  startServer(obj);
+});
 
-function startServer() {
-  var port = normalizePort(process.env.PORT || '3000');
-  app.set('port', port);
+/**
+ * Launch server
+ * @param paramObj - parameter object for server
+ * @param paramObj.SECRET - secret for user authentication
+ */
+function startServer(paramObj) {
+  if (paramObj.web.API.indexOf('localhost')>0) {
+    var mockPort = normalizePort(process.env.MOCK_PORT || '3001');
+    mock.set('port', mockPort);
 
-  /**
-   * Create HTTP server.
-   */
+    var mockServer = http.createServer(mock);
+    mockServer.listen(mockPort);
+    mockServer.on('error', onMockError);
+    mockServer.on('listening', onMockListening);
+  }
+
+  app.configRoute(paramObj.SECRET);
+  app.configErrorHandler(paramObj.DEV_MODE);
+  app.configTemplate(paramObj.DEV_MODE);
+
+  var appPort = normalizePort(process.env['PORT'] || '3000');
+  app.set('port', appPort);
 
   var server = http.createServer(app);
-
-  /**
-   * Listen on provided port, on all network interfaces.
-   */
-
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', onListening);
-
-  /**
-   * Normalize a port into a number, string, or false.
-   */
+  server.listen(appPort);
+  server.on('error', onAppError);
+  server.on('listening', onAppListening);
 
   function normalizePort(val) {
     var port = parseInt(val, 10);
@@ -46,27 +63,27 @@ function startServer() {
     return false;
   }
 
-  /**
-   * Event listener for HTTP server "error" event.
-   */
-
-  function onError(error) {
+  function onAppError(error) {
+    onError(error, appPort);
+  }
+  function onMockError(error) {
+    onError(error, mockPort);
+  }
+  function onError(error, port) {
     if (error.syscall !== 'listen') {
       throw error;
     }
 
-    var bind = typeof port === 'string'
-      ? 'Pipe ' + port
-      : 'Port ' + port
+    var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
       case 'EACCES':
-        console.error(bind + ' requires elevated privileges');
+        debugServer(bind + ' requires elevated privileges');
         process.exit(1);
         break;
       case 'EADDRINUSE':
-        console.error(bind + ' is already in use');
+        debugServer(bind + ' is already in use');
         process.exit(1);
         break;
       default:
@@ -74,15 +91,16 @@ function startServer() {
     }
   }
 
-  /**
-   * Event listener for HTTP server "listening" event.
-   */
-
-  function onListening() {
+  function onAppListening() {
     var addr = server.address();
-    var bind = typeof addr === 'string'
-      ? 'pipe ' + addr
-      : 'port ' + addr.port;
+    onListening(addr, debugServer);
+  }
+  function onMockListening() {
+    var addr = mockServer.address();
+    onListening(addr, debugMock);
+  }
+  function onListening(addr, debug) {
+    var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     debug('Listening on ' + bind);
   }
 }
