@@ -35,7 +35,7 @@ exports.decodeURL = function(encodedUrl) {
 
 exports.setTokenCookie = function(decoded, res) {
   var newToken = jwt.sign(decoded, secret, { expiresIn: this.TOKEN_EXPIRE_MINUTES*60 });
-  res.cookie('token', newToken, { maxAge: this.TOKEN_EXPIRE_MINUTES*60*1000 });
+  res.cookie('token', newToken, { maxAge: this.TOKEN_EXPIRE_MINUTES*60*1000, httpOnly: true });
 };
 
 exports.debugDatabaseFailure = function(operation, params) {

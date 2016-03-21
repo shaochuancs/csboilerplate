@@ -73,8 +73,7 @@ app.configRoute = function(secret) {
         email: user.email,
         name: user.name
       };
-      var token = jwt.sign(profile, secret, { expiresIn: utils.TOKEN_EXPIRE_MINUTES*60 });
-      res.cookie('token', token, { maxAge: utils.TOKEN_EXPIRE_MINUTES*60*1000 });
+      utils.setTokenCookie(profile, res);
       res.end();
     });
   });
