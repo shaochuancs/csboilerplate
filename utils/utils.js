@@ -16,7 +16,7 @@ var ENCODING_QUESTION_MARK = '__qm__';
 var ENCODING_EQUAL = '__eq__';
 var ENCODING_AND = '__and__';
 
-exports.TOKEN_EXTEND_DISTANCE_TO_EXPIRE_IN_MILLISECONDS = 600000; //10 minutes
+exports.TOKEN_EXTEND_DISTANCE_TO_EXPIRE_IN_MILLISECONDS = 300000; //5 minutes
 exports.TOKEN_EXPIRE_MINUTES = 10;
 
 exports.encodeURL = function(url) {

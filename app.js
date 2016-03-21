@@ -40,7 +40,7 @@ app.use(cookieParser());
 app.configRoute = function(secret) {
   //Extend token expire date
   app.use(function(req, res, next) {
-    if (req.cookies.token) {
+    if (req.cookies.token && req.path.indexOf('/static')!==0) {
       var decoded;
       try {
         decoded = jwt.verify(req.cookies.token, secret);
@@ -102,7 +102,7 @@ app.configRoute = function(secret) {
   app.use('/secure', expressJwt({secret: secret, getToken: tokenAchieveFunction}));
   app.use('/', routes);
 
-  app.use(express.static(path.join(__dirname, 'web/static'), {'extensions': ['html', 'js', 'css'], 'maxAge': '7d'}));
+  app.use('/static', express.static(path.join(__dirname, 'web/static'), {'extensions': ['html', 'js', 'css'], 'maxAge': '7d'}));
 };
 
 app.configErrorHandler = function(DEV_MODE) {
