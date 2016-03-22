@@ -25,7 +25,7 @@ config.load(function(obj) {
  * @param paramObj.SECRET - secret for user authentication
  */
 function startServer(paramObj) {
-  if (paramObj.web.API.indexOf('localhost')>0) {
+  if (paramObj.web.ENDPOINT.indexOf('localhost')>0) {
     var mockPort = normalizePort(process.env.MOCK_PORT || '3001');
     mock.set('port', mockPort);
 

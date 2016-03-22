@@ -3,4 +3,4 @@ SECRET=csboilerplate87uj984ikdhfEG83n
 
 [web]
 USE_NORMALIZE=true
-API=http://localhost:3001
+ENDPOINT=http://localhost:3001
