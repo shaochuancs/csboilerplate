@@ -4,4 +4,6 @@
 
 "use strict";
 
-module.exports = [];
+exports.lib = [];
+
+exports.map = [];

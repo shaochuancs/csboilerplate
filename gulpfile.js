@@ -80,14 +80,23 @@ gulp.task('mobile_scripts', ['mobile_lib'], function(){
 });
 
 // Third party libraries for mobile script.
-gulp.task('mobile_lib', function(){
-  return gulp.src(mobileTPList)
+gulp.task('mobile_lib', ['mobile_lib_map'], function(){
+  return gulp.src(mobileTPList.lib)
     .pipe(gulpif(!DEV_MODE, uglify({
       mangle: false,
       compress: true
     })))
     .pipe(concat('csboilerplate.lib.js'))
     .pipe(gulp.dest('web/static/compiled/scripts/mobile'));
+});
+//Third party libraries map for mobile script.
+gulp.task('mobile_lib_map', function(){
+  var glob = gulp.src(mobileTPList.map);
+  if (DEV_MODE) {
+    return glob.pipe(gulp.dest('web/static/compiled/scripts/mobile'));
+  } else {
+    return glob;
+  }
 });
 
 // PC Scripts
@@ -106,14 +115,23 @@ gulp.task('pc_scripts', ['pc_lib'], function(){
 });
 
 // Third party libraries for PC script.
-gulp.task('pc_lib', function(){
-  return gulp.src(pcTPList)
+gulp.task('pc_lib', ['pc_lib_map'], function(){
+  return gulp.src(pcTPList.lib)
     .pipe(gulpif(!DEV_MODE, uglify({
       mangle: false,
       compress: true
     })))
     .pipe(concat('csboilerplate.lib.js'))
     .pipe(gulp.dest('web/static/compiled/scripts/pc'));
+});
+//Third party libraries map for PC script.
+gulp.task('pc_lib_map', function(){
+  var glob = gulp.src(pcTPList.map);
+  if (DEV_MODE) {
+    return glob.pipe(gulp.dest('web/static/compiled/scripts/pc'));
+  } else {
+    return glob;
+  }
 });
 
 // Clean

@@ -6,6 +6,9 @@
 
 var commonTP = require('./common-tp-list');
 
-var mobileTPList = [];
+var mobileTPLib = [];
+var mobileTPMap = [];
 
-module.exports = commonTP.concat(mobileTPList);
+exports.lib = commonTP.lib.concat(mobileTPLib);
+
+exports.map = commonTP.map.concat(mobileTPMap);
