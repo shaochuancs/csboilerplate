@@ -1,5 +1,5 @@
 # csboilerplate ![Build Status](https://travis-ci.org/shaochuancs/csboilerplate.svg?branch=master)
-Boilerplate for web architecture
+Boilerplate for web architecture using AngularJS
 
 ## Get Started
 First, install bower and gulp globally, if you haven't done that yet:
