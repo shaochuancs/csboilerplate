@@ -32,7 +32,6 @@ Launch your browser and visit: `http://localhost:3000`
 ## Frameworks/Libraries/Tools used
 - MVC Framework: __AngularJS__
 - UI Framework: __Bootstrap__
-- UI Library: __FlatUI__
 - Font/Icon: __Icomoon__
 - JavaScript Library: __jQuery__(PC) / __Zepto__(mobile)
 - JavaScript Module System: __Browserify__

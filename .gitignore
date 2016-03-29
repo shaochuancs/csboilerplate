@@ -1,4 +1,3 @@
-config/config.properties
 config/constants.js
 node_modules/
 web/static/bower_components/
