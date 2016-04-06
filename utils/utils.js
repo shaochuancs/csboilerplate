@@ -54,3 +54,45 @@ exports.getNormalizedStream = function(res, normalizeFunc) {
     return res;
   }
 };
+
+exports.getRequestTargetOption = function(url, req, onlyCookie) {
+  function assembleHeadersObj(req, onlyCookie) {
+    var headers = {};
+    if (req.cookies) {
+      var cookieVal = '';
+      for (var key in req.cookies) {
+        cookieVal = cookieVal + key + '=' + req.cookies[key] + ';';
+      }
+      if (cookieVal) {
+        cookieVal = cookieVal.substring(0, cookieVal.length-1);
+        headers['Cookie'] = cookieVal;
+      }
+    }
+    if (!onlyCookie) {
+      if (req.header('Content-Type')) {
+        headers['Content-Type'] = req.header('Content-Type');
+      }
+    }
+
+    return headers;
+  }
+
+  var paramStr = '?';
+  for(var q in req.query) {
+    paramStr += (q + '=' + req.query[q] + '&');
+  }
+  if(paramStr === '?') {
+    paramStr = '';
+  }
+
+  var targetOption = {
+    url: url + paramStr,
+    headers: assembleHeadersObj(req, onlyCookie)
+  };
+  if (req.entity) {
+    targetOption.body = req.entity;
+  } else if (req.body) {
+    targetOption.json = req.body;
+  }
+  return targetOption;
+};

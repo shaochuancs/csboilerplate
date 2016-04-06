@@ -13,8 +13,14 @@ var normalize = require('../../utils/normalize');
 
 var secureAPI = require('./secure/api');
 
+// example of forward GET request to endpoint
 router.get('/sampleConnectReqURL', function(req, res) {
   req.pipe(request(endpoint + '/api/sampleReqURL')).pipe(normalize['/api/sampleConnectReqURL'](res));
+});
+
+// example of forward POST request to endpoint
+router.post('/samplePOSTReqURL', function(req, res) {
+  request.post(utils.getRequestTargetOption(endpoint + '/api/urlInEndpoint', req)).pipe(res);
 });
 
 router.use('/secure', secureAPI);
