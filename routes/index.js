@@ -10,6 +10,10 @@ var router = express.Router();
 var secure = require('./secure/index');
 var api = require('./api/api');
 
+router.get('/', function(req, res) {
+  res.render('pc/index');
+});
+
 router.get('/login', function (req, res) {
   res.render('pc/login');
 });

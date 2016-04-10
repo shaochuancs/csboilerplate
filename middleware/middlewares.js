@@ -6,6 +6,8 @@
 
 var debugServer = require('debug')('csboilerplate:server');
 var util = require('util');
+var redis = require('redis');
+var client = redis.createClient();
 var utils = require('../utils/utils');
 
 exports.notFoundHandler = function(req, res, next) {
@@ -49,4 +51,24 @@ exports.devErrorHandler = function(err, req, res, next) {
 };
 exports.prodErrorHandler = function(err, req, res, next) {
   handleError(false, err, req, res, next);
+};
+
+exports.secureCheckHandler = function(req, res, next) {
+  var unauthorizedError = new Error('Unauthorized');
+  unauthorizedError.status = 401;
+
+  var jsessionid = req.cookies.jsessionid;
+  if (!jsessionid) {
+    next(unauthorizedError);
+    return;
+  }
+
+  //TODO need Redis data structure to check jsessionid validity
+  client.get('jsessionid-'+jsessionid, function(error, reply) {
+    if (reply === 'OK') {
+      next();
+    } else {
+      next(unauthorizedError);
+    }
+  });
 };
